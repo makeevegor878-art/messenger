@@ -3,5 +3,4 @@ Flask-SocketIO==5.3.6
 Flask-Login==0.6.3
 Flask-SQLAlchemy==3.1.1
 Werkzeug==3.0.0
-gunicorn==21.2.0
-gevent==23.10.0
+waitress==2.0.0
