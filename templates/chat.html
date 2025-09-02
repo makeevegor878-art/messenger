@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Чат: {{ chats[0].name }}</h2>
+
+<div id="messages" class="border p-3 mb-3" style="height: 400px; overflow-y: scroll;">
+    <!-- Сообщения будут сюда -->
+</div>
+
+<div class="input-group mb-3">
+    <input type="text" id="message" class="form-control" placeholder="Сообщение...">
+    <input type="file" id="file" class="form-control">
+    <button onclick="send()" class="btn btn-success">Отправить</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const socket = io();
+    const messages = document.getElementById('messages');
+    const messageInput = document.getElementById('message');
+    const fileInput = document.getElementById('file');
+
+    // Войти в чат
+    socket.emit('join', { chat_id: 1 });
+
+    function appendMessage(data) {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <strong>{{ current_user.username }}:</strong>
+            ${data.content ? data.content : ''}
+            ${data.file_url ? `<br><a href="${data.file_url}" target="_blank">📎 Файл</a>` : ''}
+            <small class="text-muted"> (${data.timestamp})</small>
+        `;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    socket.on('receive_message', appendMessage);
+
+    function send() {
+        const text = messageInput.value.trim();
+        const file = fileInput.files[0];
+
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                socket.emit('send_message', {
+                    chat_id: 1,
+                    content: text,
+                    file_url: data.url
+                });
+            });
+        } else if (text) {
+            socket.emit('send_message', {
+                chat_id: 1,
+                content: text,
+                file_url: ''
+            });
+        }
+
+        messageInput.value = '';
+        fileInput.value = '';
+    }
+
+    messageInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') send();
+    });
+</script>
+{% endblock %}
