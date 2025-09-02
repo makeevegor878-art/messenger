@@ -1,0 +1,78 @@
+# --------------------------------
+# Python
+# --------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --------------------------------
+# Virtual Environment
+# --------------------------------
+venv/
+env/
+.venv/
+ENV/
+.virtualenv/
+
+# --------------------------------
+# IDE / Редакторы
+# --------------------------------
+.idea/
+*.swp
+*.swo
+*~
+
+# --------------------------------
+# Операционная система
+# --------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --------------------------------
+# Логи и базы
+# --------------------------------
+logs
+*.log
+*.sqlite
+*.sqlite3
+
+# --------------------------------
+# Переменные окружения
+# --------------------------------
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# --------------------------------
+# Другое
+# --------------------------------
+coverage/
+*.cover
+.hypothesis/
+.pytest_cache/
